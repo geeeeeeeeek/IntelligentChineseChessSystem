@@ -7,11 +7,13 @@ package chess;
 public class Piece {
     public char color;
     public char owner;
+    public char index;
     public int[] position = new int[2];
 
-    public Piece(char color, char owner, int[] position) {
-        this.color = color;
-        this.owner = owner;
+    public Piece(String name,int[] position) {
+        this.color = name.charAt(0);
+        this.owner = name.charAt(1);
+        this.index = name.charAt(2);
         this.position = position;
     }
 
