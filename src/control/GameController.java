@@ -50,8 +50,10 @@ public class GameController {
         return pieces;
     }
 
-    public Board initBoard(Map<String, Piece> pieces) {
+    public Board initBoard() {
         Board board = new Board();
+        Map<String, Piece> pieces = initPieces();
+        board.pieces = pieces;
         for (Map.Entry<String, Piece> stringPieceEntry : pieces.entrySet()) {
             Piece piece = stringPieceEntry.getValue();
             board.update(piece);
@@ -65,33 +67,44 @@ public class GameController {
     }
 
 
-    public void moveChess() {
-
+    public void moveChess(Piece piece, int[] position, Board board) {
+        /**
+         * Implement user's action.
+         * */
+        piece.moveTo(position, board);
     }
 
 
-    public void responseMoveChess() {
-
+    public void responseMoveChess(Board board) {
+        /**
+         * Implements artificial intelligence.
+         * */
+        int[] position = {0, 0};
+        Piece piece = null;
+        moveChess(piece, position, board);
     }
 
 
-    public void printBoard(Map<String, Piece> pieces) {
+    public void printBoard(Board board) {
         /**
          * Piece position is stored internally as [row, col], but output standard requires [col,row].
          * Here comes the conversion.
          * eg. [0, 4] --> [E, 0]
          * */
+        Map<String, Piece> pieces = board.pieces;
         for (Map.Entry<String, Piece> stringPieceEntry : pieces.entrySet()) {
             Piece piece = stringPieceEntry.getValue();
             System.out.println(stringPieceEntry.getKey() + ":" + (char) (piece.position[1] + 'A') + piece.position[0]);
         }
     }
 
-    public char hasWin(Map<String, Piece> pieces) {
+    public char hasWin(Board board) {
         /**
          * Judge has the game ended.
          * @return 'r' for RED wins, 'b' for BLACK wins, 'x' for game continues.
          * */
+
+        Map<String, Piece> pieces = board.pieces;
         boolean isRedWin = pieces.get("bb0") == null;
         boolean isBlackWin = pieces.get("rb0") == null;
         if (isRedWin) return 'r';

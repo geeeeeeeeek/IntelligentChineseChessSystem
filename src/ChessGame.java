@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class ChessGame {
     private Board board;
-    private Map<String, Piece> pieces;
+
     private GameController controller;
 
     public static void main(String[] args) {
@@ -21,14 +21,16 @@ public class ChessGame {
 
     public void init() {
         controller = new GameController();
-        pieces = controller.initPieces();
-        board = controller.initBoard(pieces);
+        Map<String, Piece> pieces = controller.initPieces();
+        board = controller.initBoard();
     }
 
     public void run() {
-        while (controller.hasWin(pieces) == 'x') {
+        while (controller.hasWin(board) == 'x') {
             //Do something
-            System.out.println(controller.hasWin(pieces));
+            System.out.println(controller.hasWin(board));
         }
     }
+
+
 }
