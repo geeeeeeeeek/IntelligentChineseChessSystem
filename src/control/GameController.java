@@ -81,7 +81,7 @@ public class GameController {
          * */
         int[] position = {0, 0};
         Piece piece = null;
-        moveChess(piece, position, board);
+        piece.moveTo(position, board);
     }
 
 
