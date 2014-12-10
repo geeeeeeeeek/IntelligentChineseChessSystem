@@ -1,6 +1,7 @@
 import chess.Board;
 import chess.Piece;
 import control.GameController;
+import view.GameView;
 
 import java.util.Map;
 
@@ -12,17 +13,21 @@ public class ChessGame {
     private Board board;
 
     private GameController controller;
+    private GameView view;
 
     public static void main(String[] args) {
         ChessGame game = new ChessGame();
+
         game.init();
-        game.run();
+//        game.run();
     }
 
     public void init() {
         controller = new GameController();
         Map<String, Piece> pieces = controller.initPieces();
         board = controller.initBoard();
+        view = new GameView();
+        view.init(board);
     }
 
     public void run() {

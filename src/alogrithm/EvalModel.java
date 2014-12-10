@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * Created by Tong on 12.08.
+ * Eval Model.
  */
 public class EvalModel {
     private Board board;
@@ -84,7 +85,7 @@ public class EvalModel {
             }
         }
         int sumRed = 0, sumBlack = 0;
-        for (int i=0;i<6 ;i++) {
+        for (int i = 0; i < 6; i++) {
             sumRed += values[0][i];
             sumBlack += values[1][i];
         }

@@ -20,7 +20,7 @@ public class GameController {
         pieces.put("bs0", new Piece("bs0", new int[]{0, 3}));
         pieces.put("bb0", new Piece("bb0", new int[]{0, 4}));
         pieces.put("bs1", new Piece("bs1", new int[]{0, 5}));
-        pieces.put("bx1", new Piece("bx1", new int[]{0, 2}));
+        pieces.put("bx1", new Piece("bx1", new int[]{0, 6}));
         pieces.put("bm1", new Piece("bm1", new int[]{0, 7}));
         pieces.put("bj1", new Piece("bj1", new int[]{0, 8}));
         pieces.put("bp0", new Piece("bp0", new int[]{2, 1}));
@@ -37,7 +37,7 @@ public class GameController {
         pieces.put("rs0", new Piece("rs0", new int[]{9, 3}));
         pieces.put("rb0", new Piece("rb0", new int[]{9, 4}));
         pieces.put("rs1", new Piece("rs1", new int[]{9, 5}));
-        pieces.put("rx1", new Piece("rx1", new int[]{9, 2}));
+        pieces.put("rx1", new Piece("rx1", new int[]{9, 6}));
         pieces.put("rm1", new Piece("rm1", new int[]{9, 7}));
         pieces.put("rj1", new Piece("rj1", new int[]{9, 8}));
         pieces.put("rp0", new Piece("rp0", new int[]{7, 1}));
