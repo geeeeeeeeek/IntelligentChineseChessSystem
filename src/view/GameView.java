@@ -48,14 +48,14 @@ public class GameView {
         for (Map.Entry<String, Piece> stringPieceEntry : pieces.entrySet()) {
             String key = stringPieceEntry.getKey();
             int[] pos = stringPieceEntry.getValue().position;
-            JLabel bgpiece = new JLabel(new ImageIcon("res/img/" + key.substring(0, 2) + ".png"));
+            JLabel lblPiece = new JLabel(new ImageIcon("res/img/" + key.substring(0, 2) + ".png"));
 
             int[] sPos = modelToViewConverter(pos);
-            bgpiece.setLocation(sPos[0], sPos[1]);
-            bgpiece.setSize(PIECE_WIDTH, PIECE_HEIGHT);
-            bgpiece.addMouseListener(new PieceOnClickListener(key));
-            pieceObjects.put(stringPieceEntry.getKey(), bgpiece);
-            pane.add(bgpiece, 0);
+            lblPiece.setLocation(sPos[0], sPos[1]);
+            lblPiece.setSize(PIECE_WIDTH, PIECE_HEIGHT);
+            lblPiece.addMouseListener(new PieceOnClickListener(key));
+            pieceObjects.put(stringPieceEntry.getKey(), lblPiece);
+            pane.add(lblPiece, 0);
         }
         frame.setVisible(true);
     }
@@ -69,7 +69,6 @@ public class GameView {
     }
 
     private int[] modelToViewConverter(int pos[]) {
-
         int sx = pos[1] * SX_COE + SX_OFFSET, sy = pos[0] * SY_COE + SY_OFFSET;
         return new int[]{sx, sy};
     }
@@ -86,6 +85,7 @@ public class GameView {
 
         public PieceOnClickListener(String key) {
             this.key = key;
+
         }
 
         @Override
