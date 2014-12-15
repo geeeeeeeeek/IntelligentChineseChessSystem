@@ -21,7 +21,7 @@ public class Piece {
 
     public boolean moveTo(int[] newPosition, Board board) {
         if (board.isInside(newPosition)) {
-            board.update(this, newPosition);
+            board.updatePiece(key, newPosition);
             this.position = newPosition;
             return true;
         }

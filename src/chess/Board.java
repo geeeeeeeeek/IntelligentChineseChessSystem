@@ -12,35 +12,25 @@ public class Board {
     public final int BOARD_WIDTH = 9, BOARD_HEIGHT = 10;
     private Piece[][] cells = new Piece[BOARD_HEIGHT][BOARD_WIDTH];
     public Map<String, Piece> pieces;
+    public char player = 'r';
 
-/*    private Board() {
-    }*/
-
-    //TODO
     public boolean isInside(int[] position) {
-        return (position[0] < 0 && position[0] >= BOARD_HEIGHT
-                && position[1] < 0 && position[1] >= BOARD_WIDTH);
+        return isInside(position[0], position[1]);
     }
 
-/*    public static Board getBoardInstance() {
-        return BoardInstanceHolder.board;
+    public boolean isInside(int x, int y) {
+        return !(x < 0 || x >= BOARD_HEIGHT
+                || y < 0 || y >= BOARD_WIDTH);
     }
 
-    public boolean initialize(Piece[] pieces) {
-        cells = new Piece[BOARD_WIDTH][BOARD_HEIGHT];
-        for (Piece piece : pieces) {
-            update(piece);
-        }
-        return true;
+    public boolean isEmpty(int[] position) {
+        return isEmpty(position[0], position[1]);
     }
 
-    public boolean backUp(Piece[] pieces) {
-        cells = new Piece[BOARD_WIDTH][BOARD_HEIGHT];
-        for (Piece piece : pieces) {
-            update(piece);
-        }
-        return true;
-    }*/
+    public boolean isEmpty(int x, int y) {
+        return isInside(x, y) && cells[x][y] == null;
+    }
+
 
     public boolean update(Piece piece) {
         int[] pos = piece.position;
@@ -48,27 +38,26 @@ public class Board {
         return true;
     }
 
-    public boolean update(Piece piece, int[] newPos) {
+    public boolean updatePiece(String key, int[] newPos) {
+        Piece orig = pieces.get(key);
         Piece inNewPos = getPiece(newPos);
         if (inNewPos != null) {
-            /*
-                If the new slot has been taken by another piece, then it will be killed.
-             */
+            /* If the new slot has been taken by another piece, then it will be killed.*/
             pieces.remove(inNewPos.key);
         }
-        /*
-            Clear original slot and update new slot.
-         */
-        int[] origPos = piece.position;
+        /* Clear original slot and updatePiece new slot.*/
+        int[] origPos = orig.position;
         cells[origPos[0]][origPos[1]] = null;
-        cells[newPos[0]][newPos[1]] = piece;
+        cells[newPos[0]][newPos[1]] = orig;
         return true;
     }
 
     public Piece getPiece(int[] pos) {
         return cells[pos[0]][pos[1]];
     }
-//    private static class BoardInstanceHolder {
-//        public static Board board = new Board();
-//    }
+
+    public Piece getPiece(int x, int y) {
+        return cells[x][y];
+    }
+
 }
