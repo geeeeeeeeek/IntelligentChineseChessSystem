@@ -50,6 +50,7 @@ public class Board {
         cells[origPos[0]][origPos[1]] = null;
         cells[newPos[0]][newPos[1]] = orig;
         orig.position = newPos;
+        player = (player == 'r') ? 'b' : 'r';
         return true;
     }
 

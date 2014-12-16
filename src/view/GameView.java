@@ -28,7 +28,7 @@ public class GameView {
 
     public void init(final Board board) {
         this.board = board;
-        frame = new JFrame("Intelligent Chinese Chess - Dev by Zhongyi.TONG");
+        frame = new JFrame("IntelligentChineseChessSystem.git");
         frame.setIconImage(new ImageIcon("res/img/icon.png").getImage());
         frame.setSize(VIEW_WIDTH, VIEW_HEIGHT + 40);
         frame.setLocationRelativeTo(null);
@@ -47,7 +47,7 @@ public class GameView {
                     int[] sPos = new int[]{e.getXOnScreen() - frame.getX(), e.getYOnScreen() - frame.getY()};
                     int[] pos = viewToModelConverter(sPos);
                     int[] selectedPiecePos = board.pieces.get(selectedPieceKey).position;
-                    for (int[] each : Rules.getNext(selectedPieceKey, selectedPiecePos, board)) {
+                    for (int[] each : Rules.getNextMove(selectedPieceKey, selectedPiecePos, board)) {
                         if (Arrays.equals(each, pos)) {
                             board.updatePiece(selectedPieceKey, pos);
                             movePieceFromModel(selectedPieceKey, pos);
@@ -111,7 +111,7 @@ public class GameView {
                 int[] pos = board.pieces.get(key).position;
                 int[] selectedPiecePos = board.pieces.get(selectedPieceKey).position;
                 /* If an enemy piece already has been selected.*/
-                for (int[] each : Rules.getNext(selectedPieceKey, selectedPiecePos, board)) {
+                for (int[] each : Rules.getNextMove(selectedPieceKey, selectedPiecePos, board)) {
                     if (Arrays.equals(each, pos)) {
                         // Kill self and move that piece.
                         pane.remove(pieceObjects.get(key));
@@ -125,8 +125,6 @@ public class GameView {
                 /* Select the piece.*/
                 selectedPieceKey = key;
             }
-
-
         }
     }
 
