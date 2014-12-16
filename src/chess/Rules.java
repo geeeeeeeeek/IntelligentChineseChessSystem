@@ -19,61 +19,58 @@ public class Rules {
 
     private static ArrayList<int[]> pRules(int[] pos, Board board) {
         ArrayList<int[]> moves = new ArrayList<int[]>();
-        int[] rPos = new int[]{pos[0] + 1, pos[1]};
-        int[] lPos = new int[]{pos[0] - 1, pos[1]};
-        int[] uPos = new int[]{pos[0], pos[1] - 1};
-        int[] dPos = new int[]{pos[0], pos[1] + 1};
-        boolean isR = board.isEmpty(rPos), isL = board.isEmpty(rPos), isU = board.isEmpty(uPos), isD = board.isEmpty(dPos);
-        do {
-            if (isR) {
-                moves.add(rPos);
-                isR = board.isEmpty(new int[]{rPos[0] + 1, rPos[1]});
+        int[] xOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
+        int[] yOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
+        boolean rr = false, ll = false, uu = false, dd = false;
+        for (int offset : xOffsets) {
+            int[] rMove = new int[]{pos[0] + offset, pos[1]};
+            if (!board.isInside(rMove)) break;
+            boolean e = board.isEmpty(rMove);
+            if (!rr) {
+                if (e) moves.add(rMove);
+                else rr = true;
+            } else if (!e) {
+                moves.add(rMove);
+                break;
             }
-            if (isL) {
-                moves.add(lPos);
-                isL = board.isEmpty(new int[]{lPos[0] - 1, lPos[1]});
-            }
-            if (isU) {
-                moves.add(uPos);
-                isU = board.isEmpty(new int[]{uPos[0], uPos[1] - 1});
-            }
-            if (isD) {
-                moves.add(dPos);
-                isD = board.isEmpty(new int[]{dPos[0], dPos[1] + 1});
-            }
-        } while (isR || isL || isU || isD);
-        int[] rrPos = new int[]{+rPos[0] * 2 - pos[0], pos[1]};
-        int[] llPos = new int[]{-lPos[0] * 2 + pos[0], pos[1]};
-        int[] uuPos = new int[]{pos[0], -dPos[1] * 2 + dPos[1]};
-        int[] ddPos = new int[]{pos[0], +dPos[1] * 2 - dPos[1]};
-        boolean isRR = board.isEmpty(rrPos), isLL = board.isEmpty(rrPos),
-                isUU = board.isEmpty(uuPos), isDD = board.isEmpty(ddPos);
-        do {
-            if (isRR) {
-                isR = board.isEmpty(new int[]{rrPos[0] + 1, rrPos[1]});
-            }
-            if (isLL) {
-                isL = board.isEmpty(new int[]{llPos[0] - 1, llPos[1]});
-            }
-            if (isUU) {
-                isU = board.isEmpty(new int[]{uuPos[0], uuPos[1] - 1});
-            }
-            if (isDD) {
-                isD = board.isEmpty(new int[]{ddPos[0], ddPos[1] + 1});
-            }
-        } while (isRR || isLL || isUU || isDD);
-        if (board.isInside(rrPos)) {
-            moves.add(rrPos);
         }
-        if (board.isInside(llPos)) {
-            moves.add(llPos);
+        for (int offset : xOffsets) {
+            int[] lMove = new int[]{pos[0] - offset, pos[1]};
+            if (!board.isInside(lMove)) break;
+            boolean e = board.isEmpty(lMove);
+            if (!ll) {
+                if (e) moves.add(lMove);
+                else ll = true;
+            } else if (!e) {
+                moves.add(lMove);
+                break;
+            }
         }
-        if (board.isInside(uuPos)) {
-            moves.add(uuPos);
+        for (int offset : yOffsets) {
+            int[] uMove = new int[]{pos[0], pos[1] - offset};
+            if (!board.isInside(uMove)) break;
+            boolean e = board.isEmpty(uMove);
+            if (!uu) {
+                if (e) moves.add(uMove);
+                else uu = true;
+            } else if (!e) {
+                moves.add(uMove);
+                break;
+            }
         }
-        if (board.isInside(ddPos)) {
-            moves.add(ddPos);
+        for (int offset : yOffsets) {
+            int[] dMove = new int[]{pos[0], pos[1] + offset};
+            if (!board.isInside(dMove)) break;
+            boolean e = board.isEmpty(dMove);
+            if (!dd) {
+                if (e) moves.add(dMove);
+                else dd = true;
+            } else if (!e) {
+                moves.add(dMove);
+                break;
+            }
         }
+
         return moves;
     }
 }

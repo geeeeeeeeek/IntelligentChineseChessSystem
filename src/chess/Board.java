@@ -49,6 +49,7 @@ public class Board {
         int[] origPos = orig.position;
         cells[origPos[0]][origPos[1]] = null;
         cells[newPos[0]][newPos[1]] = orig;
+        orig.position = newPos;
         return true;
     }
 

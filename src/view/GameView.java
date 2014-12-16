@@ -23,11 +23,10 @@ public class GameView {
     private static final int SY_COE = 68, SX_COE = 68;
     private static final int SX_OFFSET = 50, SY_OFFSET = 15;
     private String selectedPieceKey;
-    private int[] selectedPiecePos;
     private JFrame frame;
     private JLayeredPane pane;
 
-    public void init(Board board) {
+    public void init(final Board board) {
         this.board = board;
         frame = new JFrame("Intelligent Chinese Chess - Dev by Zhongyi.TONG");
         frame.setIconImage(new ImageIcon("res/img/icon.png").getImage());
@@ -47,7 +46,15 @@ public class GameView {
                 if (selectedPieceKey != null) {
                     int[] sPos = new int[]{e.getXOnScreen() - frame.getX(), e.getYOnScreen() - frame.getY()};
                     int[] pos = viewToModelConverter(sPos);
-                    movePieceFromModel(selectedPieceKey, pos);
+                    int[] selectedPiecePos = board.pieces.get(selectedPieceKey).position;
+                    for (int[] each : Rules.getNext(selectedPieceKey, selectedPiecePos, board)) {
+                        if (Arrays.equals(each, pos)) {
+                            board.updatePiece(selectedPieceKey, pos);
+                            movePieceFromModel(selectedPieceKey, pos);
+                            break;
+                        }
+                    }
+
                 }
             }
         });
@@ -64,7 +71,7 @@ public class GameView {
 
             lblPiece.setLocation(sPos[0], sPos[1]);
             lblPiece.setSize(PIECE_WIDTH, PIECE_HEIGHT);
-            lblPiece.addMouseListener(new PieceOnClickListener(key, pos));
+            lblPiece.addMouseListener(new PieceOnClickListener(key));
             pieceObjects.put(stringPieceEntry.getKey(), lblPiece);
             pane.add(lblPiece, 0);
         }
@@ -93,30 +100,30 @@ public class GameView {
 
     public class PieceOnClickListener extends MouseAdapter {
         private String key;
-        private int[] pos;
 
-        public PieceOnClickListener(String key, int[] pos) {
+        public PieceOnClickListener(String key) {
             this.key = key;
-            this.pos = pos;
         }
 
         @Override
         public void mouseClicked(MouseEvent e) {
             if (selectedPieceKey != null && key.charAt(0) != board.player) {
+                int[] pos = board.pieces.get(key).position;
+                int[] selectedPiecePos = board.pieces.get(selectedPieceKey).position;
                 /* If an enemy piece already has been selected.*/
-                for (int[] each : Rules.getNext(selectedPieceKey, pos, board)) {
+                for (int[] each : Rules.getNext(selectedPieceKey, selectedPiecePos, board)) {
                     if (Arrays.equals(each, pos)) {
                         // Kill self and move that piece.
                         pane.remove(pieceObjects.get(key));
                         pieceObjects.remove(key);
                         board.updatePiece(selectedPieceKey, pos);
                         movePieceFromModel(selectedPieceKey, pos);
+                        break;
                     }
                 }
             } else if (key.charAt(0) == board.player) {
                 /* Select the piece.*/
                 selectedPieceKey = key;
-                selectedPiecePos = pos;
             }
 
 

@@ -19,12 +19,12 @@ public class Piece {
         this.position = position;
     }
 
-    public boolean moveTo(int[] newPosition, Board board) {
-        if (board.isInside(newPosition)) {
-            board.updatePiece(key, newPosition);
-            this.position = newPosition;
-            return true;
-        }
-        return false;
-    }
+//    public boolean moveTo(int[] newPosition, Board board) {
+//        if (board.isInside(newPosition)) {
+//            board.updatePiece(key, newPosition);
+//            this.position = newPosition;
+//            return true;
+//        }
+//        return false;
+//    }
 }

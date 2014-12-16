@@ -67,11 +67,11 @@ public class GameController {
     }
 
 
-    public void moveChess(Piece piece, int[] position, Board board) {
+    public void moveChess(String key, int[] position, Board board) {
         /**
          * Implement user's action.
          * */
-        piece.moveTo(position, board);
+        board.updatePiece(key,position);
     }
 
 
@@ -79,9 +79,9 @@ public class GameController {
         /**
          * Implements artificial intelligence.
          * */
-        int[] position = {0, 0};
-        Piece piece = null;
-        piece.moveTo(position, board);
+//        int[] position = {0, 0};
+//        Piece piece = null;
+//        piece.moveTo(position, board);
     }
 
 
