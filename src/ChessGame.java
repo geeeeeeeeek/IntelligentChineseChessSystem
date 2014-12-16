@@ -19,21 +19,29 @@ public class ChessGame {
         ChessGame game = new ChessGame();
 
         game.init();
-//        game.run();
+        game.run();
     }
 
     public void init() {
         controller = new GameController();
         Map<String, Piece> pieces = controller.initPieces();
         board = controller.initBoard();
-        view = new GameView();
+        view = new GameView(controller);
         view.init(board);
     }
 
     public void run() {
         while (controller.hasWin(board) == 'x') {
-            //Do something
-            System.out.println(controller.hasWin(board));
+            /* User in. */
+            while (board.player == 'r') try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            controller.printBoard(board);
+            /* AI in. */
+            controller.responseMoveChess(board);
+            controller.printBoard(board);
         }
     }
 

@@ -8,7 +8,7 @@ import java.util.Map;
  */
 
 
-public class Board {
+public class Board implements Cloneable {
     public final int BOARD_WIDTH = 9, BOARD_HEIGHT = 10;
     private Piece[][] cells = new Piece[BOARD_HEIGHT][BOARD_WIDTH];
     public Map<String, Piece> pieces;
@@ -62,4 +62,15 @@ public class Board {
         return cells[x][y];
     }
 
+
+    @Override
+    public Object clone() {
+        Object o = null;
+        try {
+            o = super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return o;
+    }
 }

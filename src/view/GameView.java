@@ -3,6 +3,7 @@ package view;
 import chess.Board;
 import chess.Piece;
 import chess.Rules;
+import control.GameController;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -25,6 +26,11 @@ public class GameView {
     private String selectedPieceKey;
     private JFrame frame;
     private JLayeredPane pane;
+    private GameController controller;
+
+    public GameView(GameController gameController) {
+        this.controller = gameController;
+    }
 
     public void init(final Board board) {
         this.board = board;
@@ -49,12 +55,12 @@ public class GameView {
                     int[] selectedPiecePos = board.pieces.get(selectedPieceKey).position;
                     for (int[] each : Rules.getNextMove(selectedPieceKey, selectedPiecePos, board)) {
                         if (Arrays.equals(each, pos)) {
-                            board.updatePiece(selectedPieceKey, pos);
+                            controller.moveChess(selectedPieceKey, pos, board);
+//                            board.updatePiece(selectedPieceKey, pos);
                             movePieceFromModel(selectedPieceKey, pos);
                             break;
                         }
                     }
-
                 }
             }
         });
@@ -116,7 +122,8 @@ public class GameView {
                         // Kill self and move that piece.
                         pane.remove(pieceObjects.get(key));
                         pieceObjects.remove(key);
-                        board.updatePiece(selectedPieceKey, pos);
+//                        board.updatePiece(selectedPieceKey, pos);
+                        controller.moveChess(selectedPieceKey, pos, board);
                         movePieceFromModel(selectedPieceKey, pos);
                         break;
                     }

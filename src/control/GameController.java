@@ -69,7 +69,7 @@ public class GameController {
 
     public void moveChess(String key, int[] position, Board board) {
         /**
-         * Implement user's action.
+         * Implements user's action.
          * */
         board.updatePiece(key,position);
     }
@@ -103,7 +103,6 @@ public class GameController {
          * Judge has the game ended.
          * @return 'r' for RED wins, 'b' for BLACK wins, 'x' for game continues.
          * */
-
         Map<String, Piece> pieces = board.pieces;
         boolean isRedWin = pieces.get("bb0") == null;
         boolean isBlackWin = pieces.get("rb0") == null;
@@ -111,4 +110,5 @@ public class GameController {
         else if (isBlackWin) return 'b';
         else return 'x';
     }
+
 }
