@@ -40,6 +40,9 @@ public class Board implements Cloneable {
 
     public boolean updatePiece(String key, int[] newPos) {
         Piece orig = pieces.get(key);
+        if (orig == null) {
+            int a = 1;
+        }
         Piece inNewPos = getPiece(newPos);
         if (inNewPos != null) {
             /* If the new slot has been taken by another piece, then it will be killed.*/

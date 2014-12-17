@@ -10,20 +10,20 @@ import java.util.Map;
  * Eval Model.
  */
 public class EvalModel {
-    private Board board;
-    private char player;
+    //    private Board board;
+//    private char player;
     /*  [red, black] >> [PieceValue, PiecePosition, PieceControl, PieceFlexible, PieceProtect, PieceFeature]*/
     private int[][] values = new int[2][6];
 
-    public EvalModel(Board board, char player) {
-        this.board = board;
-        this.player = player;
-    }
+//    public EvalModel() {
+//        this.board = board;
+//        this.player = player;
+//    }
 
-    public int eval() {
+    public int eval(Board board, char player) {
         for (Map.Entry<String, Piece> stringPieceEntry : board.pieces.entrySet()) {
             Piece piece = stringPieceEntry.getValue();
-            int[] reversePosition = new int[]{10 - piece.position[0], piece.position[1]};
+            int[] reversePosition = new int[]{board.BOARD_HEIGHT - 1 - piece.position[0], piece.position[1]};
             if (piece.character == 'b') {
                 if (piece.color == 'r') {
                     values[0][0] += evalPieceValue(0);

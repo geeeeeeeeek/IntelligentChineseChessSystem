@@ -1,5 +1,6 @@
 package control;
 
+import alogrithm.SearchModel;
 import chess.Board;
 import chess.Piece;
 
@@ -71,7 +72,7 @@ public class GameController {
         /**
          * Implements user's action.
          * */
-        board.updatePiece(key,position);
+        board.updatePiece(key, position);
     }
 
 
@@ -79,9 +80,11 @@ public class GameController {
         /**
          * Implements artificial intelligence.
          * */
-//        int[] position = {0, 0};
-//        Piece piece = null;
-//        piece.moveTo(position, board);
+        SearchModel searchModel = new SearchModel();
+        Map<String, int[]> result = searchModel.search(board);
+        for (Map.Entry<String, int[]> each : result.entrySet()) {
+            // do something
+        }
     }
 
 
@@ -96,6 +99,8 @@ public class GameController {
             Piece piece = stringPieceEntry.getValue();
             System.out.println(stringPieceEntry.getKey() + ":" + (char) (piece.position[1] + 'A') + piece.position[0]);
         }
+
+        System.out.println();
     }
 
     public char hasWin(Board board) {

@@ -51,51 +51,50 @@ public class Rules {
 
     private static ArrayList<int[]> jRules(int[] pos, Board board, char player) {
         ArrayList<int[]> moves = new ArrayList<int[]>();
-        int[] xOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
-        int[] yOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
-        for (int offset : xOffsets) {
-            int[] rMove = new int[]{pos[0] + offset, pos[1]};
+        int[] yOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
+        int[] xOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
+        for (int offset : yOffsets) {
+            int[] rMove = new int[]{pos[0], pos[1] + offset};
             if (board.isEmpty(rMove)) moves.add(rMove);
             else if (board.isInside(rMove) && board.getPiece(rMove).color != player) {
                 moves.add(rMove);
                 break;
             } else break;
         }
-        for (int offset : xOffsets) {
-            int[] lMove = new int[]{pos[0] - offset, pos[1]};
+        for (int offset : yOffsets) {
+            int[] lMove = new int[]{pos[0], pos[1] - offset};
             if (board.isEmpty(lMove)) moves.add(lMove);
             else if (board.isInside(lMove) && board.getPiece(lMove).color != player) {
                 moves.add(lMove);
                 break;
             } else break;
         }
-        for (int offset : yOffsets) {
-            int[] uMove = new int[]{pos[0], pos[1] - offset};
+        for (int offset : xOffsets) {
+            int[] uMove = new int[]{pos[0] - offset, pos[1]};
             if (board.isEmpty(uMove)) moves.add(uMove);
             else if (board.isInside(uMove) && board.getPiece(uMove).color != player) {
                 moves.add(uMove);
                 break;
             } else break;
         }
-        for (int offset : yOffsets) {
-            int[] dMove = new int[]{pos[0], pos[1] + offset};
+        for (int offset : xOffsets) {
+            int[] dMove = new int[]{pos[0] + offset, pos[1]};
             if (board.isEmpty(dMove)) moves.add(dMove);
             else if (board.isInside(dMove) && board.getPiece(dMove).color != player) {
                 moves.add(dMove);
                 break;
             } else break;
         }
-
         return moves;
     }
 
     private static ArrayList<int[]> pRules(int[] pos, Board board, char player) {
         ArrayList<int[]> moves = new ArrayList<int[]>();
-        int[] xOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
-        int[] yOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int[] yOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
+        int[] xOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
         boolean rr = false, ll = false, uu = false, dd = false;
-        for (int offset : xOffsets) {
-            int[] rMove = new int[]{pos[0] + offset, pos[1]};
+        for (int offset : yOffsets) {
+            int[] rMove = new int[]{pos[0], pos[1] + offset};
             if (!board.isInside(rMove)) break;
             boolean e = board.isEmpty(rMove);
             if (!rr) {
@@ -106,8 +105,8 @@ public class Rules {
                 break;
             }
         }
-        for (int offset : xOffsets) {
-            int[] lMove = new int[]{pos[0] - offset, pos[1]};
+        for (int offset : yOffsets) {
+            int[] lMove = new int[]{pos[0], pos[1] - offset};
             if (!board.isInside(lMove)) break;
             boolean e = board.isEmpty(lMove);
             if (!ll) {
@@ -118,8 +117,8 @@ public class Rules {
                 break;
             }
         }
-        for (int offset : yOffsets) {
-            int[] uMove = new int[]{pos[0], pos[1] - offset};
+        for (int offset : xOffsets) {
+            int[] uMove = new int[]{pos[0] - offset, pos[1]};
             if (!board.isInside(uMove)) break;
             boolean e = board.isEmpty(uMove);
             if (!uu) {
@@ -130,8 +129,8 @@ public class Rules {
                 break;
             }
         }
-        for (int offset : yOffsets) {
-            int[] dMove = new int[]{pos[0], pos[1] + offset};
+        for (int offset : xOffsets) {
+            int[] dMove = new int[]{pos[0] + offset, pos[1]};
             if (!board.isInside(dMove)) break;
             boolean e = board.isEmpty(dMove);
             if (!dd) {
