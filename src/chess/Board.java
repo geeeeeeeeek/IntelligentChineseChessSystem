@@ -38,7 +38,7 @@ public class Board implements Cloneable {
         return true;
     }
 
-    public boolean updatePiece(String key, int[] newPos) {
+    public Piece updatePiece(String key, int[] newPos) {
         Piece orig = pieces.get(key);
         if (orig == null) {
             int a = 1;
@@ -54,7 +54,7 @@ public class Board implements Cloneable {
         cells[newPos[0]][newPos[1]] = orig;
         orig.position = newPos;
         player = (player == 'r') ? 'b' : 'r';
-        return true;
+        return inNewPos;
     }
 
     public Piece getPiece(int[] pos) {

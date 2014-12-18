@@ -38,10 +38,10 @@ public class ChessGame {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            controller.printBoard(board);
+//            controller.printBoard(board);
             /* AI in. */
-            controller.responseMoveChess(board);
-            controller.printBoard(board);
+            controller.responseMoveChess(board, view);
+//            controller.printBoard(board);
         }
     }
 

@@ -88,6 +88,22 @@ public class GameView {
         JLabel pieceObject = pieceObjects.get(pieceKey);
         int[] sPos = modelToViewConverter(to);
         pieceObject.setLocation(sPos[0], sPos[1]);
+
+        /* Clear 'from' and 'to' info on the board */
+        selectedPieceKey = null;
+    }
+
+    public void movePieceFromAI(String pieceKey, int[] to) {
+        Piece inNewPos = board.getPiece(to);
+        if (inNewPos != null) {
+            pane.remove(pieceObjects.get(inNewPos.key));
+            pieceObjects.remove(inNewPos.key);
+        }
+
+        JLabel pieceObject = pieceObjects.get(pieceKey);
+        int[] sPos = modelToViewConverter(to);
+        pieceObject.setLocation(sPos[0], sPos[1]);
+
         /* Clear 'from' and 'to' info on the board */
         selectedPieceKey = null;
     }

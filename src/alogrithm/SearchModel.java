@@ -6,7 +6,6 @@ import chess.Rules;
 import control.GameController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,37 +17,40 @@ public class SearchModel {
 
     private GameController controller = new GameController();
 
-    public Map<String, int[]> search(Board board) {
+    public Node search(Board board) {
         this.board = (Board) board.clone();
         /* Return evaluation if reaching leaf node or any side won.*/
         ArrayList<Node> moves = new ArrayList<Node>();
         /* Generate all possible moves*/
         for (Map.Entry<String, Piece> stringPieceEntry : board.pieces.entrySet()) {
             Piece piece = stringPieceEntry.getValue();
+            if (piece.color == 'r') continue;
             ArrayList<int[]> next = Rules.getNextMove(piece.key, piece.position, board);
             for (int[] nxt : next) {
                 Node n = new Node(piece.key, piece.position, nxt, null);
-                n.value = alphaBeta(null, 3, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
+//                n.value = alphaBeta(null, 3, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
                 moves.add(n);
             }
         }
+        for (Node n : moves) n.value = alphaBeta(null, 3, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
         int max = Integer.MIN_VALUE;
-        Map<String, int[]> piece = new HashMap<String, int[]>();
+        Node best = null;
         for (Node n : moves) {
             max = Math.max(n.value, max);
-            piece.clear();
-            piece.put(n.piece, n.to);
+            best = n;
         }
-        return piece;
+        return best;
     }
 
     private int alphaBeta(Node node, int depth, int alpha, int beta, boolean isMax) {
         /* Return evaluation if reaching leaf node or any side won.*/
-        if (depth == 0 || controller.hasWin(board) != 'x') return new EvalModel().eval(board,node.piece.charAt(0));
+        if (depth == 0 || controller.hasWin(board) != 'x') return new EvalModel().eval(board, node.piece.charAt(0));
         ArrayList<Node> moves = new ArrayList<Node>();
         /* Generate all possible moves*/
         for (Map.Entry<String, Piece> stringPieceEntry : board.pieces.entrySet()) {
             Piece piece = stringPieceEntry.getValue();
+            if (isMax && piece.color == 'r') continue;
+            if (!isMax && piece.color == 'b') continue;
             ArrayList<int[]> next = Rules.getNextMove(piece.key, piece.position, board);
             for (int[] nxt : next) {
                 Node n = new Node(piece.key, piece.position, nxt, node);
@@ -59,9 +61,14 @@ public class SearchModel {
             /* Maximizing player*/
             for (Node n : moves) {
                 //TODO if updatePiece results in a deletion of another piece, the deleted piece has to be stored when rolling back!
-                board.updatePiece(n.piece, n.to);
+                Piece eaten = board.updatePiece(n.piece, n.to);
                 alpha = Math.max(alpha, alphaBeta(n, depth - 1, alpha, beta, false));
                 board.updatePiece(n.piece, n.from);
+                if (eaten != null) {
+                    board.pieces.put(eaten.key, eaten);
+                    board.updatePiece(eaten.key, eaten.position);
+                    board.player = (board.player == 'r') ? 'b' : 'r';
+                }
                 if (beta <= alpha)
                     /* Beta cut-off */
                     break;
@@ -69,9 +76,18 @@ public class SearchModel {
             return alpha;
         } else {
             for (Node n : moves) {
-                board.updatePiece(n.piece, n.to);
+//                if (depth == 1 && n.piece.equals("rp1"))
+//                    System.out.println(n.piece + " " + Arrays.toString(n.from) + " " + Arrays.toString(n.to) + " " + depth);
+                Piece eaten = board.updatePiece(n.piece, n.to);
                 beta = Math.min(beta, alphaBeta(n, depth - 1, alpha, beta, true));
+
+
                 board.updatePiece(n.piece, n.from);
+                if (eaten != null) {
+                    board.pieces.put(eaten.key, eaten);
+                    board.updatePiece(eaten.key, eaten.position);
+                    board.player = (board.player == 'r') ? 'b' : 'r';
+                }
                 if (beta <= alpha)
                     /* Alpha cut-off */
                     break;
@@ -79,21 +95,4 @@ public class SearchModel {
             return beta;
         }
     }
-}
-
-class Node {
-    String piece;
-    int[] from;
-    int[] to;
-    int value;
-    Node parent;
-
-    Node(String piece, int[] from, int[] to, Node parent) {
-        this.piece = piece;
-        this.from = from;
-        this.to = to;
-        this.parent = parent;
-    }
-
-
 }

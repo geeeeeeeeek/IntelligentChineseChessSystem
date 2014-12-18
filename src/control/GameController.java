@@ -1,8 +1,10 @@
 package control;
 
+import alogrithm.Node;
 import alogrithm.SearchModel;
 import chess.Board;
 import chess.Piece;
+import view.GameView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,15 +78,15 @@ public class GameController {
     }
 
 
-    public void responseMoveChess(Board board) {
+    public void responseMoveChess(Board board, GameView view) {
         /**
          * Implements artificial intelligence.
          * */
         SearchModel searchModel = new SearchModel();
-        Map<String, int[]> result = searchModel.search(board);
-        for (Map.Entry<String, int[]> each : result.entrySet()) {
-            // do something
-        }
+        Node result = searchModel.search(board);
+
+        view.movePieceFromAI(result.piece, result.to);
+        board.updatePiece(result.piece,result.to);
     }
 
 
