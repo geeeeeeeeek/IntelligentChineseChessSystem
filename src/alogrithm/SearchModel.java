@@ -34,7 +34,7 @@ public class SearchModel {
         }
         for (Node n : moves) {
             Piece eaten = board.updatePiece(n.piece, n.to);
-            n.value = alphaBeta(n, 1, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
+            n.value = alphaBeta(n, 3, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
             board.updatePiece(n.piece, n.from);
             if (eaten != null) {
                 board.pieces.put(eaten.key, eaten);
@@ -56,12 +56,8 @@ public class SearchModel {
 
     private int alphaBeta(Node node, int depth, int alpha, int beta, boolean isMax) {
         /* Return evaluation if reaching leaf node or any side won.*/
-        if (depth == 0 || controller.hasWin(board) != 'x') {
-            if (node.piece.equals("bp1") && node.to[0] == 8) {
-                int a = 1;
-            }
+        if (depth == 0 || controller.hasWin(board) != 'x')
             return new EvalModel().eval(board, node.piece.charAt(0));
-        }
         ArrayList<Node> moves = new ArrayList<Node>();
         /* Generate all possible moves*/
         for (Map.Entry<String, Piece> stringPieceEntry : board.pieces.entrySet()) {
@@ -77,7 +73,6 @@ public class SearchModel {
         if (isMax) {
             /* Maximizing player*/
             for (Node n : moves) {
-                //TODO if updatePiece results in a deletion of another piece, the deleted piece has to be stored when rolling back!
                 Piece eaten = board.updatePiece(n.piece, n.to);
                 alpha = Math.max(alpha, alphaBeta(n, depth - 1, alpha, beta, false));
                 board.updatePiece(n.piece, n.from);
@@ -93,8 +88,6 @@ public class SearchModel {
             return alpha;
         } else {
             for (Node n : moves) {
-//                if (depth == 1 && n.piece.equals("rp1"))
-//                    System.out.println(n.piece + " " + Arrays.toString(n.from) + " " + Arrays.toString(n.to) + " " + depth);
                 Piece eaten = board.updatePiece(n.piece, n.to);
                 beta = Math.min(beta, alphaBeta(n, depth - 1, alpha, beta, true));
                 board.updatePiece(n.piece, n.from);
