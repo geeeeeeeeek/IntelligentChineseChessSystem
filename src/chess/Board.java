@@ -40,9 +40,6 @@ public class Board implements Cloneable {
 
     public Piece updatePiece(String key, int[] newPos) {
         Piece orig = pieces.get(key);
-        if (orig == null) {
-            int a = 1;
-        }
         Piece inNewPos = getPiece(newPos);
         if (inNewPos != null) {
             /* If the new slot has been taken by another piece, then it will be killed.*/
@@ -75,5 +72,10 @@ public class Board implements Cloneable {
             e.printStackTrace();
         }
         return o;
+//        Board cloned = new Board();
+//        cloned.cells = cells.clone();
+//        for (Map.Entry<String, Piece> stringPieceEntry : pieces.entrySet()) {
+//            cloned.pieces.put(stringPieceEntry.getKey(), (Piece) stringPieceEntry.getValue().clone());
+//        }
     }
 }

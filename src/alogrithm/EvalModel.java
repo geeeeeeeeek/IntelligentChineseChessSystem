@@ -85,10 +85,12 @@ public class EvalModel {
             }
         }
         int sumRed = 0, sumBlack = 0;
-        for (int i = 0; i < 6; i++) {
-            sumRed += values[0][i];
-            sumBlack += values[1][i];
-        }
+//        for (int i = 1; i < 6; i++) {
+//            sumRed += values[0][i];
+//            sumBlack += values[1][i];
+//        }
+        sumRed = values[0][0] + values[0][1] * 100;
+        sumBlack = values[1][0] + values[1][1] * 100;
         if (player == 'r') return sumRed - sumBlack;
         else if (player == 'b') return sumBlack - sumRed;
         return -1;
@@ -97,7 +99,7 @@ public class EvalModel {
 
     private int evalPieceValue(int p) {
         // b | s | x | m | j | p | z
-        int[] pieceValue = new int[]{10000, 110, 110, 300, 600, 300, 70};
+        int[] pieceValue = new int[]{1000000, 110, 110, 300, 600, 300, 70};
         return pieceValue[p];
     }
 
@@ -163,7 +165,7 @@ public class EvalModel {
 
     private int evalPieceFlexible(int p) {
         // b | s | x | m | j | p | z
-        int[] pieceFlexible = new int[]{0, 1, 1, 13, 7, 300, 15};
+        int[] pieceFlexible = new int[]{0, 1, 1, 13, 7, 7, 15};
         return 0;
     }
 

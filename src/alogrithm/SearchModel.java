@@ -34,7 +34,7 @@ public class SearchModel {
         }
         for (Node n : moves) {
             Piece eaten = board.updatePiece(n.piece, n.to);
-            n.value = alphaBeta(n, 3, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
+            n.value = alphaBeta(n, 2, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
             board.updatePiece(n.piece, n.from);
             if (eaten != null) {
                 board.pieces.put(eaten.key, eaten);
@@ -51,6 +51,13 @@ public class SearchModel {
             }
 
         }
+//        for (int i = 0; i < board.BOARD_HEIGHT; i++) {
+//            for (int j = 0; j < board.BOARD_WIDTH; j++) {
+//                if (board.getPiece(i, j) != null && !Arrays.equals(board.getPiece(i, j).position, board.pieces.get(board.getPiece(i, j).key).position)) {
+//                    System.out.println("!");
+//                }
+//            }
+//        }
         return best;
     }
 

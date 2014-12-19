@@ -4,7 +4,7 @@ package chess;
  * Created by Tong on 12.03.
  * Chess > Piece entity
  */
-public class Piece {
+public class Piece implements Cloneable {
     public String key;
     public char color;
     public char character;
@@ -19,7 +19,17 @@ public class Piece {
         this.position = position;
     }
 
-//    public boolean moveTo(int[] newPosition, Board board) {
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //    public boolean moveTo(int[] newPosition, Board board) {
 //        if (board.isInside(newPosition)) {
 //            board.updatePiece(key, newPosition);
 //            this.position = newPosition;
