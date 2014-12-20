@@ -48,7 +48,7 @@ public class GameView {
         bgBoard.setSize(VIEW_WIDTH, VIEW_HEIGHT);
         bgBoard.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 if (selectedPieceKey != null) {
                     int[] sPos = new int[]{e.getXOnScreen() - frame.getX(), e.getYOnScreen() - frame.getY()};
                     int[] pos = viewToModelConverter(sPos);
@@ -128,7 +128,7 @@ public class GameView {
         }
 
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mousePressed(MouseEvent e) {
             if (selectedPieceKey != null && key.charAt(0) != board.player) {
                 int[] pos = board.pieces.get(key).position;
                 int[] selectedPiecePos = board.pieces.get(selectedPieceKey).position;
