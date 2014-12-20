@@ -8,28 +8,35 @@ import java.util.ArrayList;
  */
 public class Rules {
 
+    private static int[] pos;
+    private static Board board;
+    private static char player;
+
     public static ArrayList<int[]> getNextMove(String piece, int[] pos, Board board) {
+        Rules.pos = pos;
+        Rules.board = board;
+        Rules.player = piece.charAt(0);
         switch (piece.charAt(1)) {
             case 'j':
-                return jRules(pos, board, piece.charAt(0));
+                return jRules();
             case 'm':
-                return mRules(pos, board, piece.charAt(0));
+                return mRules();
             case 'p':
-                return pRules(pos, board, piece.charAt(0));
+                return pRules();
             case 'x':
-                return xRules(pos, board, piece.charAt(0));
+                return xRules();
             case 's':
-                return sRules(pos, board, piece.charAt(0));
+                return sRules();
             case 'b':
-                return bRules(pos, board, piece.charAt(0));
+                return bRules();
             case 'z':
-                return zRules(pos, board, piece.charAt(0));
+                return zRules();
             default:
                 return null;
         }
     }
 
-    private static ArrayList<int[]> mRules(int[] pos, Board board, char player) {
+    private static ArrayList<int[]> mRules() {
         ArrayList<int[]> moves = new ArrayList<int[]>();
         int[][] target = new int[][]{{1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}};
         int[][] obstacle = new int[][]{{0, -1}, {1, 0}, {1, 0}, {0, 1}, {0, 1}, {-1, 0}, {-1, 0}, {0, -1}};
@@ -38,18 +45,14 @@ public class Rules {
             int[] f = new int[]{pos[0] + obstacle[i][0], pos[1] + obstacle[i][1]};
             if (!board.isInside(e)) continue;
             if (board.isEmpty(f)) {
-                if (board.isEmpty(e)) {
-                    moves.add(e);
-                } else if (board.getPiece(e).color != player) {
-                    moves.add(e);
-                }
+                if (board.isEmpty(e)) moves.add(e);
+                else if (board.getPiece(e).color != player) moves.add(e);
             }
-
         }
         return moves;
     }
 
-    private static ArrayList<int[]> jRules(int[] pos, Board board, char player) {
+    private static ArrayList<int[]> jRules() {
         ArrayList<int[]> moves = new ArrayList<int[]>();
         int[] yOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
         int[] xOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -88,7 +91,7 @@ public class Rules {
         return moves;
     }
 
-    private static ArrayList<int[]> pRules(int[] pos, Board board, char player) {
+    private static ArrayList<int[]> pRules() {
         ArrayList<int[]> moves = new ArrayList<int[]>();
         int[] yOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
         int[] xOffsets = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -101,9 +104,7 @@ public class Rules {
                 if (e) moves.add(rMove);
                 else rr = true;
             } else if (!e) {
-                if (board.getPiece(rMove).color != player) {
-                    moves.add(rMove);
-                }
+                if (board.getPiece(rMove).color != player) moves.add(rMove);
                 break;
             }
         }
@@ -129,9 +130,7 @@ public class Rules {
                 if (e) moves.add(uMove);
                 else uu = true;
             } else if (!e) {
-                if (board.getPiece(uMove).color != player) {
-                    moves.add(uMove);
-                }
+                if (board.getPiece(uMove).color != player) moves.add(uMove);
                 break;
             }
         }
@@ -143,17 +142,14 @@ public class Rules {
                 if (e) moves.add(dMove);
                 else dd = true;
             } else if (!e) {
-                if (board.getPiece(dMove).color != player) {
-                    moves.add(dMove);
-                }
+                if (board.getPiece(dMove).color != player) moves.add(dMove);
                 break;
             }
         }
-
         return moves;
     }
 
-    private static ArrayList<int[]> xRules(int[] pos, Board board, char player) {
+    private static ArrayList<int[]> xRules() {
         ArrayList<int[]> moves = new ArrayList<int[]>();
         int[][] target = new int[][]{{-2, -2}, {2, -2}, {-2, 2}, {2, 2}};
         int[][] obstacle = new int[][]{{-1, -1}, {1, -1}, {-1, 1}, {1, 1}};
@@ -162,17 +158,14 @@ public class Rules {
             int[] f = new int[]{pos[0] + obstacle[i][0], pos[1] + obstacle[i][1]};
             if (!board.isInside(e) || (e[0] > 4 && player == 'b') || (e[0] < 5 && player == 'r')) continue;
             if (board.isEmpty(f)) {
-                if (board.isEmpty(e)) {
-                    moves.add(e);
-                } else if (board.getPiece(e).color != player) {
-                    moves.add(e);
-                }
+                if (board.isEmpty(e)) moves.add(e);
+                else if (board.getPiece(e).color != player) moves.add(e);
             }
         }
         return moves;
     }
 
-    private static ArrayList<int[]> sRules(int[] pos, Board board, char player) {
+    private static ArrayList<int[]> sRules() {
         ArrayList<int[]> moves = new ArrayList<int[]>();
         int[][] target = new int[][]{{-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
         for (int[] aTarget : target) {
@@ -185,8 +178,9 @@ public class Rules {
         return moves;
     }
 
-    private static ArrayList<int[]> bRules(int[] pos, Board board, char player) {
+    private static ArrayList<int[]> bRules() {
         ArrayList<int[]> moves = new ArrayList<int[]>();
+        /* 3*3 block */
         int[][] target = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
         for (int[] aTarget : target) {
             int[] e = new int[]{pos[0] + aTarget[0], pos[1] + aTarget[1]};
@@ -195,6 +189,7 @@ public class Rules {
             if (board.isEmpty(e)) moves.add(e);
             else if (board.getPiece(e).color != player) moves.add(e);
         }
+        /* opposite 'b' */
         boolean flag = true;
         int[] oppoBoss = (player == 'r') ? board.pieces.get("bb0").position : board.pieces.get("rb0").position;
         if (oppoBoss[1] == pos[1]) {
@@ -209,7 +204,7 @@ public class Rules {
         return moves;
     }
 
-    private static ArrayList<int[]> zRules(int[] pos, Board board, char player) {
+    private static ArrayList<int[]> zRules() {
         ArrayList<int[]> moves = new ArrayList<int[]>();
         int[][] targetU = new int[][]{{0, 1}, {0, -1}, {-1, 0}};
         int[][] targetD = new int[][]{{0, 1}, {0, -1}, {1, 0}};

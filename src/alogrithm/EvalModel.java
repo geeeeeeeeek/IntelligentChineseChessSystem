@@ -14,10 +14,13 @@ public class EvalModel {
     /* However, only PieceValue and PiecePosition are implemented, so the array size is set to 2. */
     private int[][] values = new int[2][2];
 
+    /**
+     * @param player, eval the situation in player's perspective.
+     */
     public int eval(Board board, char player) {
         for (Map.Entry<String, Piece> stringPieceEntry : board.pieces.entrySet()) {
             Piece piece = stringPieceEntry.getValue();
-            /* The table in PiecePosition is for red player in default. To calculate black player, needs to perform a mirror transformation. */
+            /* The table in PiecePosition is for red player in default. To eval black player, needs to perform a mirror transformation. */
             int[] reversePosition = new int[]{board.BOARD_HEIGHT - 1 - piece.position[0], piece.position[1]};
             switch (piece.character) {
                 case 'b':
@@ -80,7 +83,6 @@ public class EvalModel {
                 return -1;
         }
     }
-
 
     private int evalPieceValue(int p) {
         /* b | s | x | m | j | p | z*/

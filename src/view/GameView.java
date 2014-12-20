@@ -17,12 +17,12 @@ import java.util.Map;
  * Dealing with graphics logic in the chess game. Render with j2d.
  */
 public class GameView {
-    private Map<String, JLabel> pieceObjects = new HashMap<String, JLabel>();
-    private Board board;
     private static final int VIEW_WIDTH = 700, VIEW_HEIGHT = 712;
     private static final int PIECE_WIDTH = 67, PIECE_HEIGHT = 67;
     private static final int SY_COE = 68, SX_COE = 68;
     private static final int SX_OFFSET = 50, SY_OFFSET = 15;
+    private Map<String, JLabel> pieceObjects = new HashMap<String, JLabel>();
+    private Board board;
     private String selectedPieceKey;
     private JFrame frame;
     private JLayeredPane pane;
@@ -34,7 +34,7 @@ public class GameView {
 
     public void init(final Board board) {
         this.board = board;
-        frame = new JFrame("IntelligentChineseChessSystem.git");
+        frame = new JFrame("Intelligent Chinese Chess @Zhongyi.Tong");
         frame.setIconImage(new ImageIcon("res/img/icon.png").getImage());
         frame.setSize(VIEW_WIDTH, VIEW_HEIGHT + 40);
         frame.setLocationRelativeTo(null);
@@ -46,26 +46,8 @@ public class GameView {
         JLabel bgBoard = new JLabel(new ImageIcon("res/img/board.png"));
         bgBoard.setLocation(0, 0);
         bgBoard.setSize(VIEW_WIDTH, VIEW_HEIGHT);
-        bgBoard.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (selectedPieceKey != null) {
-                    int[] sPos = new int[]{e.getXOnScreen() - frame.getX(), e.getYOnScreen() - frame.getY()};
-                    int[] pos = viewToModelConverter(sPos);
-                    int[] selectedPiecePos = board.pieces.get(selectedPieceKey).position;
-                    for (int[] each : Rules.getNextMove(selectedPieceKey, selectedPiecePos, board)) {
-                        if (Arrays.equals(each, pos)) {
-                            controller.moveChess(selectedPieceKey, pos, board);
-//                            board.updatePiece(selectedPieceKey, pos);
-                            movePieceFromModel(selectedPieceKey, pos);
-                            break;
-                        }
-                    }
-                }
-            }
-        });
+        bgBoard.addMouseListener(new BoardClickListener());
         pane.add(bgBoard, 1);
-
 
         /* Initialize chess pieces and listeners on each piece.*/
         Map<String, Piece> pieces = board.pieces;
@@ -83,6 +65,7 @@ public class GameView {
         }
         frame.setVisible(true);
     }
+
 
     public void movePieceFromModel(String pieceKey, int[] to) {
         JLabel pieceObject = pieceObjects.get(pieceKey);
@@ -120,10 +103,10 @@ public class GameView {
         return new int[]{x, y};
     }
 
-    public class PieceOnClickListener extends MouseAdapter {
+    class PieceOnClickListener extends MouseAdapter {
         private String key;
 
-        public PieceOnClickListener(String key) {
+        PieceOnClickListener(String key) {
             this.key = key;
         }
 
@@ -147,6 +130,24 @@ public class GameView {
             } else if (key.charAt(0) == board.player) {
                 /* Select the piece.*/
                 selectedPieceKey = key;
+            }
+        }
+    }
+
+    class BoardClickListener extends MouseAdapter {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (selectedPieceKey != null) {
+                int[] sPos = new int[]{e.getXOnScreen() - frame.getX(), e.getYOnScreen() - frame.getY()};
+                int[] pos = viewToModelConverter(sPos);
+                int[] selectedPiecePos = board.pieces.get(selectedPieceKey).position;
+                for (int[] each : Rules.getNextMove(selectedPieceKey, selectedPiecePos, board)) {
+                    if (Arrays.equals(each, pos)) {
+                        controller.moveChess(selectedPieceKey, pos, board);
+                        movePieceFromModel(selectedPieceKey, pos);
+                        break;
+                    }
+                }
             }
         }
     }

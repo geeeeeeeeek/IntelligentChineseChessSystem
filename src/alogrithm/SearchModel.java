@@ -13,8 +13,8 @@ import java.util.Map;
  * Alpha beta search.
  */
 public class SearchModel {
-    private Board board;
     private static final int DEPTH = 3;
+    private Board board;
     private GameController controller = new GameController();
 
     public AlphaBetaNode search(Board board) {
@@ -22,10 +22,13 @@ public class SearchModel {
         AlphaBetaNode best = null;
         ArrayList<AlphaBetaNode> moves = generateMovesForAll(true);
         for (AlphaBetaNode n : moves) {
+            /* Move*/
             Piece eaten = board.updatePiece(n.piece, n.to);
             n.value = alphaBeta(DEPTH, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
+            /* Select a best move during searching to save time*/
             if (best == null || n.value >= best.value)
                 best = n;
+            /* Back move*/
             board.updatePiece(n.piece, n.from);
             if (eaten != null) {
                 board.pieces.put(eaten.key, eaten);
@@ -51,7 +54,7 @@ public class SearchModel {
                 board.pieces.put(eaten.key, eaten);
                 board.backPiece(eaten.key);
             }
-                /* Cut-off */
+            /* Cut-off */
             if (beta <= alpha) break;
         }
         return isMax ? alpha : beta;
@@ -63,11 +66,8 @@ public class SearchModel {
             Piece piece = stringPieceEntry.getValue();
             if (isMax && piece.color == 'r') continue;
             if (!isMax && piece.color == 'b') continue;
-            ArrayList<int[]> next = Rules.getNextMove(piece.key, piece.position, board);
-            for (int[] nxt : next) {
-                AlphaBetaNode n = new AlphaBetaNode(piece.key, piece.position, nxt);
-                moves.add(n);
-            }
+            for (int[] nxt : Rules.getNextMove(piece.key, piece.position, board))
+                moves.add(new AlphaBetaNode(piece.key, piece.position, nxt));
         }
         return moves;
     }

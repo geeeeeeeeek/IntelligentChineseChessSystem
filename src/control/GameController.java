@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class GameController {
 
-    public Map<String, Piece> initPieces() {
+    private Map<String, Piece> initPieces() {
         Map<String, Piece> pieces = new HashMap<String, Piece>();
         pieces.put("bj0", new Piece("bj0", new int[]{0, 0}));
         pieces.put("bm0", new Piece("bm0", new int[]{0, 1}));
@@ -53,20 +53,20 @@ public class GameController {
         return pieces;
     }
 
-    public Board initBoard() {
+    private Board initBoard() {
         Board board = new Board();
-        Map<String, Piece> pieces = initPieces();
-        board.pieces = pieces;
-        for (Map.Entry<String, Piece> stringPieceEntry : pieces.entrySet()) {
-            Piece piece = stringPieceEntry.getValue();
-            board.update(piece);
-        }
+        board.pieces = initPieces();
+        for (Map.Entry<String, Piece> stringPieceEntry : initPieces().entrySet()) board.update(stringPieceEntry.getValue());
         return board;
     }
 
 
-    public void playChess() {
-
+    public Board playChess() {
+        /**
+         * Start game.
+         * */
+        initPieces();
+        return initBoard();
     }
 
 
@@ -86,7 +86,7 @@ public class GameController {
         AlphaBetaNode result = searchModel.search(board);
 
         view.movePieceFromAI(result.piece, result.to);
-        board.updatePiece(result.piece,result.to);
+        board.updatePiece(result.piece, result.to);
     }
 
 
@@ -110,9 +110,8 @@ public class GameController {
          * Judge has the game ended.
          * @return 'r' for RED wins, 'b' for BLACK wins, 'x' for game continues.
          * */
-        Map<String, Piece> pieces = board.pieces;
-        boolean isRedWin = pieces.get("bb0") == null;
-        boolean isBlackWin = pieces.get("rb0") == null;
+        boolean isRedWin = board.pieces.get("bb0") == null;
+        boolean isBlackWin = board.pieces.get("rb0") == null;
         if (isRedWin) return 'r';
         else if (isBlackWin) return 'b';
         else return 'x';

@@ -8,11 +8,11 @@ import java.util.Map;
  */
 
 
-public class Board implements Cloneable {
+public class Board{
     public final int BOARD_WIDTH = 9, BOARD_HEIGHT = 10;
-    private Piece[][] cells = new Piece[BOARD_HEIGHT][BOARD_WIDTH];
     public Map<String, Piece> pieces;
     public char player = 'r';
+    private Piece[][] cells = new Piece[BOARD_HEIGHT][BOARD_WIDTH];
 
     public boolean isInside(int[] position) {
         return isInside(position[0], position[1]);
@@ -41,10 +41,9 @@ public class Board implements Cloneable {
     public Piece updatePiece(String key, int[] newPos) {
         Piece orig = pieces.get(key);
         Piece inNewPos = getPiece(newPos);
-        if (inNewPos != null) {
-            /* If the new slot has been taken by another piece, then it will be killed.*/
+        /* If the new slot has been taken by another piece, then it will be killed.*/
+        if (inNewPos != null)
             pieces.remove(inNewPos.key);
-        }
         /* Clear original slot and updatePiece new slot.*/
         int[] origPos = orig.position;
         cells[origPos[0]][origPos[1]] = null;
@@ -54,14 +53,14 @@ public class Board implements Cloneable {
         return inNewPos;
     }
 
-    public void backPiece(String key) {
-        Piece orig = pieces.get(key);
-        int[] origPos = orig.position;
-        cells[origPos[0]][origPos[1]] = orig;
+    public boolean backPiece(String key) {
+        int[] origPos = pieces.get(key).position;
+        cells[origPos[0]][origPos[1]] = pieces.get(key);
+        return true;
     }
 
     public Piece getPiece(int[] pos) {
-        return cells[pos[0]][pos[1]];
+        return getPiece(pos[0], pos[1]);
     }
 
     public Piece getPiece(int x, int y) {

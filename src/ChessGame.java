@@ -12,34 +12,31 @@ public class ChessGame {
     private GameController controller;
     private GameView view;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ChessGame game = new ChessGame();
-
         game.init();
         game.run();
     }
 
     public void init() {
         controller = new GameController();
-        controller.initPieces();
-        board = controller.initBoard();
+        board = controller.playChess();
+
         view = new GameView(controller);
         view.init(board);
     }
 
-    public void run() {
+    public void run() throws InterruptedException {
         while (controller.hasWin(board) == 'x') {
             /* User in. */
-            while (board.player == 'r') try {
+            while (board.player == 'r')
                 Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
+            if (controller.hasWin(board) != 'x')
+                System.exit(0);
             /* AI in. */
             controller.responseMoveChess(board, view);
         }
-        System.out.println("game over");
+        System.exit(0);
     }
-
-
 }
