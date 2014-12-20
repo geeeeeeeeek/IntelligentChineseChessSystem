@@ -100,8 +100,10 @@ public class Rules {
             if (!rr) {
                 if (e) moves.add(rMove);
                 else rr = true;
-            } else if (!e && board.getPiece(rMove).color != player) {
-                moves.add(rMove);
+            } else if (!e) {
+                if (board.getPiece(rMove).color != player) {
+                    moves.add(rMove);
+                }
                 break;
             }
         }
@@ -112,8 +114,10 @@ public class Rules {
             if (!ll) {
                 if (e) moves.add(lMove);
                 else ll = true;
-            } else if (!e && board.getPiece(lMove).color != player) {
-                moves.add(lMove);
+            } else if (!e) {
+                if (board.getPiece(lMove).color != player) {
+                    moves.add(lMove);
+                }
                 break;
             }
         }
@@ -124,8 +128,10 @@ public class Rules {
             if (!uu) {
                 if (e) moves.add(uMove);
                 else uu = true;
-            } else if (!e && board.getPiece(uMove).color != player) {
-                moves.add(uMove);
+            } else if (!e) {
+                if (board.getPiece(uMove).color != player) {
+                    moves.add(uMove);
+                }
                 break;
             }
         }
@@ -136,8 +142,10 @@ public class Rules {
             if (!dd) {
                 if (e) moves.add(dMove);
                 else dd = true;
-            } else if (!e && board.getPiece(dMove).color != player) {
-                moves.add(dMove);
+            } else if (!e) {
+                if (board.getPiece(dMove).color != player) {
+                    moves.add(dMove);
+                }
                 break;
             }
         }
@@ -166,7 +174,7 @@ public class Rules {
 
     private static ArrayList<int[]> sRules(int[] pos, Board board, char player) {
         ArrayList<int[]> moves = new ArrayList<int[]>();
-        int[][] target = new int[][]{{-1, -1}, {1, 1}, {-1, 1}, {1, -1}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        int[][] target = new int[][]{{-1, -1}, {1, 1}, {-1, 1}, {1, -1}};
         for (int[] aTarget : target) {
             int[] e = new int[]{pos[0] + aTarget[0], pos[1] + aTarget[1]};
             if (!board.isInside(e) || ((e[0] > 2 || e[1] < 3 || e[1] > 5) && player == 'b') || ((e[0] < 7 || e[1] < 3 || e[1] > 5) && player == 'r'))
@@ -186,6 +194,10 @@ public class Rules {
                 continue;
             if (board.isEmpty(e)) moves.add(e);
             else if (board.getPiece(e).color != player) moves.add(e);
+        }
+        int[] oppoBoss = (player == 'r') ? board.pieces.get("bb0").position : board.pieces.get("rb0").position;
+        if (player == 'b' && oppoBoss[1] == pos[1]) {
+            moves.add(oppoBoss);
         }
         return moves;
     }
