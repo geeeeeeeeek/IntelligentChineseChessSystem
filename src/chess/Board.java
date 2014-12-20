@@ -63,19 +63,4 @@ public class Board implements Cloneable {
     }
 
 
-    @Override
-    public Object clone() {
-        Object o = null;
-        try {
-            o = super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return o;
-//        Board cloned = new Board();
-//        cloned.cells = cells.clone();
-//        for (Map.Entry<String, Piece> stringPieceEntry : pieces.entrySet()) {
-//            cloned.pieces.put(stringPieceEntry.getKey(), (Piece) stringPieceEntry.getValue().clone());
-//        }
-    }
 }

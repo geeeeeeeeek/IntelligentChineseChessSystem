@@ -19,22 +19,4 @@ public class Piece implements Cloneable {
         this.position = position;
     }
 
-    @Override
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    //    public boolean moveTo(int[] newPosition, Board board) {
-//        if (board.isInside(newPosition)) {
-//            board.updatePiece(key, newPosition);
-//            this.position = newPosition;
-//            return true;
-//        }
-//        return false;
-//    }
 }

@@ -18,7 +18,7 @@ public class SearchModel {
     private GameController controller = new GameController();
 
     public Node search(Board board) {
-        this.board = (Board) board.clone();
+        this.board = board;
         /* Return evaluation if reaching leaf node or any side won.*/
         ArrayList<Node> moves = new ArrayList<Node>();
         /* Generate all possible moves*/
@@ -37,7 +37,7 @@ public class SearchModel {
             if (n.piece.equals("bx0")) {
                 int a = 1;
             }
-            n.value = alphaBeta(n, 3, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
+            n.value = alphaBeta(n, 1, Integer.MIN_VALUE, Integer.MAX_VALUE, false);
             board.updatePiece(n.piece, n.from);
             if (eaten != null) {
                 board.pieces.put(eaten.key, eaten);

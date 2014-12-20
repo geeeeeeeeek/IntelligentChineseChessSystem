@@ -19,7 +19,7 @@ public class ChessGame {
         ChessGame game = new ChessGame();
 
         game.init();
-//        game.run();
+        game.run();
     }
 
     public void init() {

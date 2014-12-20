@@ -195,9 +195,16 @@ public class Rules {
             if (board.isEmpty(e)) moves.add(e);
             else if (board.getPiece(e).color != player) moves.add(e);
         }
+        boolean flag = true;
         int[] oppoBoss = (player == 'r') ? board.pieces.get("bb0").position : board.pieces.get("rb0").position;
-        if (player == 'b' && oppoBoss[1] == pos[1]) {
-            moves.add(oppoBoss);
+        if (oppoBoss[1] == pos[1]) {
+            for (int i = Math.min(oppoBoss[0], pos[0]) + 1; i < Math.min(oppoBoss[0], pos[0]); i++) {
+                if (board.getPiece(i, pos[1]) != null) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) moves.add(oppoBoss);
         }
         return moves;
     }
