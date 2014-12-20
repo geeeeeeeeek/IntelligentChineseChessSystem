@@ -54,6 +54,12 @@ public class Board implements Cloneable {
         return inNewPos;
     }
 
+    public void backPiece(String key) {
+        Piece orig = pieces.get(key);
+        int[] origPos = orig.position;
+        cells[origPos[0]][origPos[1]] = orig;
+    }
+
     public Piece getPiece(int[] pos) {
         return cells[pos[0]][pos[1]];
     }
@@ -61,6 +67,4 @@ public class Board implements Cloneable {
     public Piece getPiece(int x, int y) {
         return cells[x][y];
     }
-
-
 }

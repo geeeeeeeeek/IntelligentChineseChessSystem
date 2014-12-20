@@ -10,95 +10,80 @@ import java.util.Map;
  * Eval Model.
  */
 public class EvalModel {
-    //    private Board board;
-//    private char player;
     /*  [red, black] >> [PieceValue, PiecePosition, PieceControl, PieceFlexible, PieceProtect, PieceFeature]*/
-    private int[][] values = new int[2][6];
-
-//    public EvalModel() {
-//        this.board = board;
-//        this.player = player;
-//    }
+    /* However, only PieceValue and PiecePosition are implemented, so the array size is set to 2. */
+    private int[][] values = new int[2][2];
 
     public int eval(Board board, char player) {
         for (Map.Entry<String, Piece> stringPieceEntry : board.pieces.entrySet()) {
             Piece piece = stringPieceEntry.getValue();
+            /* The table in PiecePosition is for red player in default. To calculate black player, needs to perform a mirror transformation. */
             int[] reversePosition = new int[]{board.BOARD_HEIGHT - 1 - piece.position[0], piece.position[1]};
-            if (piece.character == 'b') {
-                if (piece.color == 'r') {
-                    values[0][0] += evalPieceValue(0);
-
-                } else {
-                    values[1][0] += evalPieceValue(0);
-
-                }
-            }
-            if (piece.character == 's') {
-                if (piece.color == 'r') {
-                    values[0][0] += evalPieceValue(1);
-                } else {
-                    values[1][0] += evalPieceValue(1);
-                }
-            }
-            if (piece.character == 'x') {
-                if (piece.color == 'r') {
-                    values[0][0] += evalPieceValue(2);
-                } else {
-                    values[1][0] += evalPieceValue(2);
-                }
-            }
-            if (piece.character == 'm') {
-                if (piece.color == 'r') {
-                    values[0][0] += evalPieceValue(3);
-                    values[0][1] += evalPiecePosition(3, piece.position);
-                } else {
-                    values[1][0] += evalPieceValue(3);
-                    values[1][1] += evalPiecePosition(3, reversePosition);
-                }
-            }
-            if (piece.character == 'j') {
-                if (piece.color == 'r') {
-                    values[0][0] += evalPieceValue(4);
-                    values[0][1] += evalPiecePosition(4, piece.position);
-                } else {
-                    values[1][0] += evalPieceValue(4);
-                    values[1][1] += evalPiecePosition(4, reversePosition);
-                }
-            }
-            if (piece.character == 'p') {
-                if (piece.color == 'r') {
-                    values[0][0] += evalPieceValue(5);
-                    values[0][1] += evalPiecePosition(5, piece.position);
-                } else {
-                    values[1][0] += evalPieceValue(5);
-                    values[1][1] += evalPiecePosition(5, reversePosition);
-                }
-            }
-            if (piece.character == 'z') {
-                if (piece.color == 'r') {
-                    values[0][0] += evalPieceValue(6);
-                    values[0][1] += evalPiecePosition(6, piece.position);
-                } else {
-                    values[1][0] += evalPieceValue(6);
-                    values[1][1] += evalPiecePosition(6, reversePosition);
-                }
+            switch (piece.character) {
+                case 'b':
+                    if (piece.color == 'r') values[0][0] += evalPieceValue(0);
+                    else values[1][0] += evalPieceValue(0);
+                    break;
+                case 's':
+                    if (piece.color == 'r') values[0][0] += evalPieceValue(1);
+                    else values[1][0] += evalPieceValue(1);
+                    break;
+                case 'x':
+                    if (piece.color == 'r') values[0][0] += evalPieceValue(2);
+                    else values[1][0] += evalPieceValue(2);
+                    break;
+                case 'm':
+                    if (piece.color == 'r') {
+                        values[0][0] += evalPieceValue(3);
+                        values[0][1] += evalPiecePosition(3, piece.position);
+                    } else {
+                        values[1][0] += evalPieceValue(3);
+                        values[1][1] += evalPiecePosition(3, reversePosition);
+                    }
+                    break;
+                case 'j':
+                    if (piece.color == 'r') {
+                        values[0][0] += evalPieceValue(4);
+                        values[0][1] += evalPiecePosition(4, piece.position);
+                    } else {
+                        values[1][0] += evalPieceValue(4);
+                        values[1][1] += evalPiecePosition(4, reversePosition);
+                    }
+                    break;
+                case 'p':
+                    if (piece.color == 'r') {
+                        values[0][0] += evalPieceValue(5);
+                        values[0][1] += evalPiecePosition(5, piece.position);
+                    } else {
+                        values[1][0] += evalPieceValue(5);
+                        values[1][1] += evalPiecePosition(5, reversePosition);
+                    }
+                    break;
+                case 'z':
+                    if (piece.color == 'r') {
+                        values[0][0] += evalPieceValue(6);
+                        values[0][1] += evalPiecePosition(6, piece.position);
+                    } else {
+                        values[1][0] += evalPieceValue(6);
+                        values[1][1] += evalPiecePosition(6, reversePosition);
+                    }
+                    break;
             }
         }
-        int sumRed = 0, sumBlack = 0;
-//        for (int i = 1; i < 6; i++) {
-//            sumRed += values[0][i];
-//            sumBlack += values[1][i];
-//        }
-        sumRed = values[0][0] + values[0][1] * 100;
-        sumBlack = values[1][0] + values[1][1] * 100;
-        if (player == 'r') return sumRed - sumBlack;
-        else if (player == 'b') return sumBlack - sumRed;
-        return -1;
+        int sumRed = values[0][0] + values[0][1] * 8, sumBlack = values[1][0] + values[1][1] * 8;
+        switch (player) {
+            case 'r':
+                return sumRed - sumBlack;
+            case 'b':
+                return sumBlack - sumRed;
+            default:
+                return -1;
+        }
     }
 
 
     private int evalPieceValue(int p) {
-        // b | s | x | m | j | p | z
+        /* b | s | x | m | j | p | z*/
         int[] pieceValue = new int[]{1000000, 110, 110, 300, 600, 300, 70};
         return pieceValue[p];
     }

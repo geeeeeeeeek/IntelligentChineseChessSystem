@@ -32,7 +32,7 @@ public class Rules {
     private static ArrayList<int[]> mRules(int[] pos, Board board, char player) {
         ArrayList<int[]> moves = new ArrayList<int[]>();
         int[][] target = new int[][]{{1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}};
-        int[][] obstacle = new int[][]{{0, -1}, {1, 0}, {1, 0}, {0, 1}, {0, -1}, {-1, 0}, {-1, 0}, {0, -1}};
+        int[][] obstacle = new int[][]{{0, -1}, {1, 0}, {1, 0}, {0, 1}, {0, 1}, {-1, 0}, {-1, 0}, {0, -1}};
         for (int i = 0; i < target.length; i++) {
             int[] e = new int[]{pos[0] + target[i][0], pos[1] + target[i][1]};
             int[] f = new int[]{pos[0] + obstacle[i][0], pos[1] + obstacle[i][1]};
@@ -198,7 +198,7 @@ public class Rules {
         boolean flag = true;
         int[] oppoBoss = (player == 'r') ? board.pieces.get("bb0").position : board.pieces.get("rb0").position;
         if (oppoBoss[1] == pos[1]) {
-            for (int i = Math.min(oppoBoss[0], pos[0]) + 1; i < Math.min(oppoBoss[0], pos[0]); i++) {
+            for (int i = Math.min(oppoBoss[0], pos[0]) + 1; i < Math.max(oppoBoss[0], pos[0]); i++) {
                 if (board.getPiece(i, pos[1]) != null) {
                     flag = false;
                     break;

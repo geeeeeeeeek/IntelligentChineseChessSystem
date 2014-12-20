@@ -2,20 +2,17 @@ package alogrithm;
 
 /**
  * Created by Tong on 12.18.
+ * Store piece move in alpha beta search.
  */
-public class Node {
+public class AlphaBetaNode {
     public String piece;
-    int[] from;
+    public int[] from;
     public int[] to;
-    int value;
-    Node parent;
+    public int value;
 
-    public Node(String piece, int[] from, int[] to, Node parent) {
+    public AlphaBetaNode(String piece, int[] from, int[] to) {
         this.piece = piece;
         this.from = from;
         this.to = to;
-        this.parent = parent;
     }
-
-
 }

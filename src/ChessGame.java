@@ -1,9 +1,6 @@
 import chess.Board;
-import chess.Piece;
 import control.GameController;
 import view.GameView;
-
-import java.util.Map;
 
 /**
  * Created by Tong on 12.08.
@@ -24,7 +21,7 @@ public class ChessGame {
 
     public void init() {
         controller = new GameController();
-        Map<String, Piece> pieces = controller.initPieces();
+        controller.initPieces();
         board = controller.initBoard();
         view = new GameView(controller);
         view.init(board);
@@ -38,11 +35,10 @@ public class ChessGame {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-//            controller.printBoard(board);
             /* AI in. */
             controller.responseMoveChess(board, view);
-//            controller.printBoard(board);
         }
+        System.out.println("game over");
     }
 
 
