@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>alogrithm</OriginalElement>
+  <nodes>
+    <node x="571.8333333333333" y="0.0">chess.Piece</node>
+    <node x="570.4442708333333" y="806.0">view.GameView</node>
+    <node x="202.49999999999994" y="607.0">alogrithm.AlphaBetaNode</node>
+    <node x="172.35416666666663" y="854.0">alogrithm.SearchModel</node>
+    <node x="532.3333333333333" y="201.0">chess.Board</node>
+    <node x="816.4442708333333" y="643.0">chess.Rules</node>
+    <node x="405.49999999999994" y="595.0">control.GameController</node>
+    <node x="572.5833333333333" y="1017.0">ChessGame</node>
+    <node x="10.5" y="643.0">alogrithm.EvalModel</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="view.GameView" target="control.GameController">
+      <point x="-56.25" y="-75.5" />
+      <point x="100.41666666666674" y="75.5" />
+    </edge>
+    <edge source="ChessGame" target="control.GameController">
+      <point x="-40.799999999999955" y="-51.5" />
+      <point x="633.7833333333333" y="987.0" />
+      <point x="559.9442708333333" y="987.0" />
+      <point x="559.9442708333333" y="786.0" />
+      <point x="586.25" y="786.0" />
+      <point x="60.25" y="75.5" />
+    </edge>
+    <edge source="view.GameView" target="chess.Board">
+      <point x="56.25" y="-75.5" />
+      <point x="739.1942708333333" y="575.0" />
+      <point x="736.3333333333333" y="575.0" />
+      <point x="0.0" y="172.0" />
+    </edge>
+    <edge source="control.GameController" target="chess.Piece">
+      <point x="-60.25" y="-75.5" />
+      <point x="465.74999999999994" y="565.0" />
+      <point x="441.60416666666663" y="565.0" />
+      <point x="441.60416666666663" y="171.0" />
+      <point x="595.9583333333333" y="171.0" />
+      <point x="-72.375" y="75.5" />
+    </edge>
+    <edge source="alogrithm.SearchModel" target="chess.Board">
+      <point x="-97.5" y="-27.5" />
+      <point x="191.85416666666663" y="786.0" />
+      <point x="0.0" y="786.0" />
+      <point x="0.0" y="575.0" />
+      <point x="573.1333333333333" y="575.0" />
+      <point x="-163.2" y="172.0" />
+    </edge>
+    <edge source="alogrithm.SearchModel" target="alogrithm.AlphaBetaNode">
+      <point x="-19.5" y="-27.5" />
+      <point x="269.85416666666663" y="786.0" />
+      <point x="293.99999999999994" y="786.0" />
+      <point x="0.0" y="63.5" />
+    </edge>
+    <edge source="alogrithm.SearchModel" target="control.GameController">
+      <point x="58.5" y="-27.5" />
+      <point x="347.85416666666663" y="776.0" />
+      <point x="465.74999999999994" y="776.0" />
+      <point x="-60.25" y="75.5" />
+    </edge>
+    <edge source="ChessGame" target="chess.Board">
+      <point x="81.60000000000002" y="-51.5" />
+      <point x="756.1833333333334" y="997.0" />
+      <point x="805.9442708333333" y="997.0" />
+      <point x="805.9442708333333" y="575.0" />
+      <point x="817.9333333333334" y="575.0" />
+      <point x="81.60000000000002" y="172.0" />
+    </edge>
+    <edge source="control.GameController" target="alogrithm.SearchModel">
+      <point x="-20.08333333333337" y="75.5" />
+      <point x="505.9166666666666" y="786.0" />
+      <point x="386.85416666666663" y="786.0" />
+      <point x="97.5" y="-27.5" />
+    </edge>
+    <edge source="alogrithm.SearchModel" target="alogrithm.EvalModel">
+      <point x="-58.5" y="-27.5" />
+      <point x="230.85416666666663" y="776.0" />
+      <point x="96.5" y="776.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="chess.Rules" target="chess.Board">
+      <point x="0.0" y="-27.5" />
+      <point x="992.9442708333333" y="575.0" />
+      <point x="899.5333333333333" y="575.0" />
+      <point x="163.20000000000005" y="172.0" />
+    </edge>
+    <edge source="chess.Board" target="chess.Piece">
+      <point x="0.0" y="-172.0" />
+      <point x="736.3333333333333" y="181.0" />
+      <point x="692.4583333333333" y="181.0" />
+      <point x="24.125" y="75.5" />
+    </edge>
+    <edge source="control.GameController" target="chess.Board">
+      <point x="60.25" y="-75.5" />
+      <point x="586.25" y="575.0" />
+      <point x="654.7333333333333" y="575.0" />
+      <point x="-81.60000000000002" y="172.0" />
+    </edge>
+    <edge source="ChessGame" target="view.GameView">
+      <point x="40.799999999999955" y="-51.5" />
+      <point x="715.3833333333332" y="997.0" />
+      <point x="739.1942708333333" y="997.0" />
+      <point x="56.25" y="75.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.8" x="839.125" y="571.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+
