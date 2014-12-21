@@ -28,15 +28,17 @@ public class ChessGame {
 
     public void run() throws InterruptedException {
         while (controller.hasWin(board) == 'x') {
+            view.showPlayer('r');
             /* User in. */
             while (board.player == 'r')
                 Thread.sleep(1000);
 
             if (controller.hasWin(board) != 'x')
-                System.exit(0);
+                view.showWinner('r');
+            view.showPlayer('b');
             /* AI in. */
             controller.responseMoveChess(board, view);
         }
-        System.exit(0);
+        view.showWinner('b');
     }
 }

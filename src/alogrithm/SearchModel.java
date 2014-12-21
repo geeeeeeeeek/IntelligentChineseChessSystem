@@ -13,12 +13,20 @@ import java.util.Map;
  * Alpha beta search.
  */
 public class SearchModel {
-    private static final int DEPTH = 3;
+    private static int DEPTH = 2;
     private Board board;
     private GameController controller = new GameController();
 
     public AlphaBetaNode search(Board board) {
         this.board = board;
+        if (board.pieces.size() < 28)
+            DEPTH = 3;
+        if (board.pieces.size() < 16)
+            DEPTH = 4;
+        if (board.pieces.size() < 12)
+            DEPTH = 5;
+        if (board.pieces.size() < 8)
+            DEPTH = 6;
         AlphaBetaNode best = null;
         ArrayList<AlphaBetaNode> moves = generateMovesForAll(true);
         for (AlphaBetaNode n : moves) {

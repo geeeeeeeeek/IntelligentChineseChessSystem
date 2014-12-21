@@ -27,6 +27,7 @@ public class GameView {
     private JFrame frame;
     private JLayeredPane pane;
     private GameController controller;
+    private JLabel lblPlayer;
 
     public GameView(GameController gameController) {
         this.controller = gameController;
@@ -48,6 +49,12 @@ public class GameView {
         bgBoard.setSize(VIEW_WIDTH, VIEW_HEIGHT);
         bgBoard.addMouseListener(new BoardClickListener());
         pane.add(bgBoard, 1);
+
+        /* Initialize player image.*/
+        lblPlayer = new JLabel(new ImageIcon("res/img/r.png"));
+        lblPlayer.setLocation(10, 320);
+        lblPlayer.setSize(PIECE_WIDTH, PIECE_HEIGHT);
+        pane.add(lblPlayer, 0);
 
         /* Initialize chess pieces and listeners on each piece.*/
         Map<String, Piece> pieces = board.pieces;
@@ -103,6 +110,16 @@ public class GameView {
         return new int[]{x, y};
     }
 
+    public void showPlayer(char player) {
+        lblPlayer.setIcon(new ImageIcon("res/img/" + player + ".png"));
+        frame.setVisible(true);
+    }
+
+    public void showWinner(char player) {
+        JOptionPane.showMessageDialog(null, (player == 'r') ? "Red player has won!" : "Black player has won!", "Intelligent Chinese Checkers", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
+    }
+
     class PieceOnClickListener extends MouseAdapter {
         private String key;
 
@@ -121,7 +138,6 @@ public class GameView {
                         // Kill self and move that piece.
                         pane.remove(pieceObjects.get(key));
                         pieceObjects.remove(key);
-//                        board.updatePiece(selectedPieceKey, pos);
                         controller.moveChess(selectedPieceKey, pos, board);
                         movePieceFromModel(selectedPieceKey, pos);
                         break;
