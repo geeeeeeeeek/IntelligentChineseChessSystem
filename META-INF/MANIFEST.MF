@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Class-Path: D:\Users\Tong\workspace\IntelligentChineseChessSystem\out\
+ production
+Main-Class: ChessGame
+

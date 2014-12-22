@@ -116,7 +116,7 @@ public class GameView {
     }
 
     public void showWinner(char player) {
-        JOptionPane.showMessageDialog(null, (player == 'r') ? "Red player has won!" : "Black player has won!", "Intelligent Chinese Checkers", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, (player == 'r') ? "Red player has won!" : "Black player has won!", "Intelligent Chinese Chess", JOptionPane.INFORMATION_MESSAGE);
         System.exit(0);
     }
 

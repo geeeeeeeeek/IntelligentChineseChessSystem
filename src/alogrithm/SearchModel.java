@@ -23,10 +23,11 @@ public class SearchModel {
             DEPTH = 3;
         if (board.pieces.size() < 16)
             DEPTH = 4;
-        if (board.pieces.size() < 12)
+        if (board.pieces.size() < 6)
             DEPTH = 5;
-        if (board.pieces.size() < 8)
+        if (board.pieces.size() < 4)
             DEPTH = 6;
+        long startTime = System.currentTimeMillis();
         AlphaBetaNode best = null;
         ArrayList<AlphaBetaNode> moves = generateMovesForAll(true);
         for (AlphaBetaNode n : moves) {
@@ -43,8 +44,11 @@ public class SearchModel {
                 board.backPiece(eaten.key);
             }
         }
+        long finishTime = System.currentTimeMillis();
+        System.out.println(finishTime - startTime);
         return best;
     }
+
 
     private int alphaBeta(int depth, int alpha, int beta, boolean isMax) {
         /* Return evaluation if reaching leaf node or any side won.*/
@@ -52,18 +56,46 @@ public class SearchModel {
             return new EvalModel().eval(board, 'b');
         ArrayList<AlphaBetaNode> moves = generateMovesForAll(isMax);
 
-        for (AlphaBetaNode n : moves) {
-            Piece eaten = board.updatePiece(n.piece, n.to);
+        synchronized (this) {
+            for (final AlphaBetaNode n : moves) {
+                Piece eaten = board.updatePiece(n.piece, n.to);
             /* Is maximizing player? */
-            if (isMax) alpha = Math.max(alpha, alphaBeta(depth - 1, alpha, beta, false));
-            else beta = Math.min(beta, alphaBeta(depth - 1, alpha, beta, true));
-            board.updatePiece(n.piece, n.from);
-            if (eaten != null) {
-                board.pieces.put(eaten.key, eaten);
-                board.backPiece(eaten.key);
-            }
+                final int finalBeta = beta;
+                final int finalAlpha = alpha;
+                final int finalDepth = depth;
+                final int[] temp = new int[1];
+                /* Only adopt multi threading strategy in depth 2. To avoid conjunction.*/
+                if (depth == 2) {
+                    if (isMax) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                temp[0] = Math.max(finalAlpha, alphaBeta(finalDepth - 1, finalAlpha, finalBeta, false));
+                            }
+                        }).run();
+                        alpha = temp[0];
+                    } else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                temp[0] = Math.min(finalBeta, alphaBeta(finalDepth - 1, finalAlpha, finalBeta, true));
+                            }
+                        }).run();
+                        beta = temp[0];
+                    }
+                }
+                else {
+                    if (isMax) alpha = Math.max(alpha, alphaBeta(depth - 1, alpha, beta, false));
+                    else beta = Math.min(beta, alphaBeta(depth - 1, alpha, beta, true));
+                }
+                board.updatePiece(n.piece, n.from);
+                if (eaten != null) {
+                    board.pieces.put(eaten.key, eaten);
+                    board.backPiece(eaten.key);
+                }
             /* Cut-off */
-            if (beta <= alpha) break;
+                if (beta <= alpha) break;
+            }
         }
         return isMax ? alpha : beta;
     }
@@ -79,4 +111,5 @@ public class SearchModel {
         }
         return moves;
     }
+
 }
