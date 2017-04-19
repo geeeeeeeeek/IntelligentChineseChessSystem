@@ -5,7 +5,7 @@ Intelligent Chinese Chess
 
 >Course project for Data Structure and Algorithm. Project2.
 
-###Overview
+### Overview
 A Chinese Chess game implemented with artificial intelligence, rendered in Java 2D. Supports human-computer competition.
 
 The project is written in Java. You are supposed to run ‘ChineseChess.java’ in Intellij IDEA, instead of Eclipse. The project is open sourced on [Github](https://github.com/geeeeeeeeek/IntelligentChineseChessSystem/).
